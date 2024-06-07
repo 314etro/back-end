@@ -65,28 +65,25 @@ app.get('/cadastro', (req, res) => {
 
 
 
-app.post('/cadastro', (req, res) => {
+
+app.post("/cadastro", (req, res)=>{
+    const name = req.body.nome
     const email = req.body.email
     const password = req.body.senha
-    const confirm = req.body.nvsenhaConfirm
-    const nomeUsuario = req.body.nomeUsu
+    const confpassword = req.body.nvsenhaConfirm
 
-    db.query('select email from usuario where email = ?', [email], (error, results) => {
-        if (error) {
-            console.log('Erro ao realizar consulta', error);
-        } else {
-            if (results.length = 0) {
-                db.query('insert into usuario (nome,email, password) values (?,?,?);', [nomeUsuario, email, password], (error, results) => {
-                    if (error) {
-                        console.log('erro ao realizar o cadastro', error)
-                    } else {
-                        console.log('cadastro realizado com sucesso')
-                    }
-                })
+    if (password === confpassword){
+        console.log('chegou aqui')
+
+        db.query('insert into usuario (nome, email, password) values (?,?,?);', [name, email, password], (error, results)=>{ 
+            if (error){
+                console.log('Erro ao realizar o cadastro', error);
+            }else {
+                console.log('Cadastro relizado com sucesso');
             }
-        }
-    })
+        })
+    } else {
+        console.log('Senhas Divergentes')
+    }
 });
-
-
 
